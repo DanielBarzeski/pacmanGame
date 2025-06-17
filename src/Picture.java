@@ -22,7 +22,12 @@ public class Picture {
             return ImageIO.read(new File("images/" + pathname + ".png"));
         } catch (IOException e) {
             System.out.println("Image " + pathname + ".png does not exist.");
-            return new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage image = new BufferedImage(64, 64, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2d = image.createGraphics();
+            g2d.setColor(Color.white);
+            g2d.fillRect(0, 0, 64, 64);
+            g2d.dispose();
+            return image;
         }
     }
 
