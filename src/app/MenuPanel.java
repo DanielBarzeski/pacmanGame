@@ -14,9 +14,7 @@ public class MenuPanel extends JPanel {
         setBackground(Color.green);
         pause = new JButton();
         pause.setBackground(Color.orange);
-        pause.addActionListener(_ -> {
-            Game.setPAUSED(!Game.isPAUSED());
-        });
+        pause.addActionListener(_ -> Game.setPAUSED(!Game.isPAUSED()));
         JButton restart = new JButton("restart");
         restart.setBackground(Color.orange);
         restart.setFocusable(false);
