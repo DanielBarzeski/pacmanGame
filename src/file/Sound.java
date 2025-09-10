@@ -1,5 +1,7 @@
 package file;
 
+import logic.Game;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -51,7 +53,7 @@ public class Sound {
     }
 
     public static void playEatingAppleSound() {
-        if (eatingAppleSound != null) {
+        if (Game.isSOUND() && eatingAppleSound != null) {
             if (eatingAppleSound.isRunning())
                 return;
             eatingAppleSound.setFramePosition(0);
@@ -60,21 +62,21 @@ public class Sound {
     }
 
     public static void playEatingCherrySound() {
-        if (eatingCherrySound != null) {
+        if (Game.isSOUND() && eatingCherrySound != null) {
             eatingCherrySound.setFramePosition(0);
             eatingCherrySound.start();
         }
     }
 
     public static void playEatingGhostSound() {
-        if (eatingGhostSound != null) {
+        if (Game.isSOUND() && eatingGhostSound != null && !eatingGhostSound.isRunning()) {
             eatingGhostSound.setFramePosition(0);
             eatingGhostSound.start();
         }
     }
 
     public static void playEatingPacmanSound() {
-        if (eatingPacmanSound != null) {
+        if (Game.isSOUND() && eatingPacmanSound != null) {
             eatingPacmanSound.setFramePosition(0);
             eatingPacmanSound.start();
         }

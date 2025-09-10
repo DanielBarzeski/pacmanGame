@@ -1,22 +1,33 @@
 package app;
 
+import file.Sound;
 import logic.Game;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MenuPanel extends JPanel {
-    private final JButton pause;
+    private final JButton pause, sound;
+    private final JPanel p;
 
     public MenuPanel() {
         setLayout(new FlowLayout());
         setPreferredSize(new Dimension(700, 36));
-        setBackground(Color.green);
+        setBackground(Color.blue);
         pause = new JButton();
-        pause.setBackground(Color.orange);
+        pause.setPreferredSize(new Dimension(90, 26));
+        p = new JPanel();
+        p.setBackground(getBackground());
+        p.setPreferredSize(new Dimension(90, 26));
+        p.setVisible(false);
+        pause.setBackground(Color.cyan);
         pause.addActionListener(_ -> Game.setPAUSED(!Game.isPAUSED()));
+        sound = new JButton(" mute ");
+        sound.setFocusable(false);
+        sound.setBackground(Color.cyan);
+        sound.addActionListener(_ -> Game.setSOUND(!Game.isSOUND()));
         JButton restart = new JButton("restart");
-        restart.setBackground(Color.orange);
+        restart.setBackground(Color.cyan);
         restart.setFocusable(false);
         restart.addActionListener(_ -> {
             Game.setRESTARTING(true);
@@ -26,36 +37,40 @@ public class MenuPanel extends JPanel {
         });
         JButton previous = new JButton("prev");
         previous.setFocusable(false);
-        previous.setBackground(Color.orange);
+        previous.setBackground(Color.cyan);
         previous.addActionListener(_ -> {
             Game.setLEVEL(Game.getLEVEL() - 1);
             restart.doClick();
         });
         JButton next = new JButton("next");
         next.setFocusable(false);
-        next.setBackground(Color.orange);
+        next.setBackground(Color.cyan);
         next.addActionListener(_ -> {
             Game.setLEVEL(Game.getLEVEL() + 1);
             restart.doClick();
         });
         add(restart);
+        add(sound);
+        add(pause);
+        add(p);
         add(previous);
         add(next);
-        add(pause);
     }
 
     public void update() {
-        if (Game.isFINISHED())
-            pause.setVisible(false);
-        else if (Game.isPAUSED()) {
-            pause.setPreferredSize(new Dimension(90, 26));
-            pause.setText("continue");
-            pause.requestFocusInWindow();
-        } else {
-            pause.setPreferredSize(new Dimension(90, 26));
-            pause.setText("pause");
-            pause.requestFocusInWindow();
+        p.setVisible(Game.isFINISHED());
+        pause.setVisible(!Game.isFINISHED());
+        if (!Game.isFINISHED()) pause.setText(Game.isPAUSED() ? "continue" : "pause");
+        if (!Game.isFINISHED()) {
+            if (Game.isSOUND()) {
+                sound.setText(" mute ");
+                Sound.playBackgroundSound();
+            } else {
+                sound.setText("sound");
+                Sound.stopBackgroundSound();
+            }
         }
+        pause.requestFocusInWindow();
         repaint();
     }
 }

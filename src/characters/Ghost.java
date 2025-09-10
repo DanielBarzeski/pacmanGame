@@ -11,6 +11,11 @@ public class Ghost extends GameCharacter {
     private static final Color[] COLORS = new Color[]{
             Color.orange, Color.green, Color.magenta, Color.cyan,
             Color.pink, Color.green.darker(), Color.magenta.darker(), Color.cyan.darker(),
+            new Color(46, 204, 113), new Color(204, 9, 79),
+            new Color(90,115,255), new Color(250, 111, 29),
+            new Color(240, 90, 208), new Color(134, 131, 127),
+            new Color(137, 0, 240), new Color(255, 215, 0),
+            new Color(205, 133, 63), new Color(119, 136, 153),
     };
     private final Color color;
     private boolean killed;
@@ -74,7 +79,6 @@ public class Ghost extends GameCharacter {
     }
 
     public void kill() {
-        reset();
         killed = true;
     }
 

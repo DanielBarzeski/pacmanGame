@@ -109,6 +109,10 @@ public class BoardFactory {
         return walls;
     }
 
+    public boolean isWin() {
+        return win;
+    }
+
     public void setWin(boolean win) {
         this.win = win;
     }

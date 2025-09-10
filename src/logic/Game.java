@@ -1,20 +1,15 @@
 package logic;
 
-import file.Sound;
-
 public class Game {
-    private static boolean FINISHED, PAUSED, RESTARTING;
+    private static boolean FINISHED, PAUSED, RESTARTING, SOUND = true;
     private static int LEVEL, SCORE;
 
     public static void START() {
         PAUSED = false;
         FINISHED = false;
-        Sound.rewindBackgroundSound();
-        Sound.playBackgroundSound();
     }
 
     public static void END() {
-        Sound.stopBackgroundSound();
         PAUSED = true;
         FINISHED = true;
     }
@@ -53,5 +48,13 @@ public class Game {
 
     public static void setSCORE(int SCORE) {
         Game.SCORE = SCORE;
+    }
+
+    public static boolean isSOUND() {
+        return SOUND;
+    }
+
+    public static void setSOUND(boolean SOUND) {
+        Game.SOUND = SOUND;
     }
 }

@@ -1,6 +1,7 @@
 package app;
 
 
+import file.Sound;
 import logic.Board;
 import logic.Constants;
 import logic.Game;
@@ -39,6 +40,7 @@ public class GamePanel extends JPanel {
         if (!Game.isFINISHED() && !Game.isPAUSED()) {
             this.board.updateRules();
             this.board.moveGhosts();
+            this.board.canPacMove();
             if (timeCounter[0] == 4) {
                 this.board.updateFood();
                 this.board.movePacman();
@@ -49,6 +51,7 @@ public class GamePanel extends JPanel {
     }
 
     private void reset() {
+        Sound.rewindBackgroundSound();
         byte[][] map = readByteArrayFromFile();
         setPreferredSize(new Dimension(
                         map[0].length * Constants.CELL_SIZE,
@@ -57,6 +60,7 @@ public class GamePanel extends JPanel {
         );
         this.board = new Board(map);
         Game.START();
+        Sound.playBackgroundSound();
     }
 
     private void setupKeyBindings() {

@@ -13,7 +13,7 @@ import java.util.*;
 
 public class Board extends BoardFactory {
 
-    private boolean update = true;
+    private boolean update = true, movePac = true;
 
     public Board(byte[][] map) {
         super(map);
@@ -24,12 +24,9 @@ public class Board extends BoardFactory {
     }
 
     public void updateRules() {
-        if (Pacman.getLIFE() == 0) {
-            Game.END();
-            return;
-        }
-        if (getFood().getApples().isEmpty() && getFood().getCherries().isEmpty()) {
-            setWin(true);
+        setWin(getFood().getApples().isEmpty() && getFood().getCherries().isEmpty());
+        if (isWin() || Pacman.getLIFE() == 0) {
+            Sound.stopBackgroundSound();
             Game.END();
             return;
         }
@@ -39,9 +36,18 @@ public class Board extends BoardFactory {
                 ghost.revive();
             if (getPacman().collision(ghost)) {
                 if (Ghost.isSCARED()) {
-                    ghost.kill();
-                    getFood().addToScore(20);
-                    Sound.playEatingGhostSound();
+                    if (!ghost.isKilled()) {
+                        new Thread(() -> {
+                            ghost.kill();
+                            try {
+                                Thread.sleep(110);
+                            } catch (InterruptedException ignored) {
+                            }
+                            getFood().addToScore(20);
+                            Sound.playEatingGhostSound();
+                            ghost.reset();
+                        }).start();
+                    }
                 } else {
                     Sound.playEatingPacmanSound();
                     getPacman().getSpriteBounds().x = 48;
@@ -56,6 +62,7 @@ public class Board extends BoardFactory {
                         }
                         getPacman().kill();
                         update = true;
+                        movePac = true;
                     }).start();
                     return;
                 }
@@ -67,28 +74,35 @@ public class Board extends BoardFactory {
         getFood().interactWith(getPacman());
     }
 
-    public void movePacman() {
+    public void canPacMove() {
         if (!Ghost.isSCARED()) {
             for (Ghost ghost : getGhosts()) {
-                if (getPacman().isNextTo(ghost) || getPacman().collision(ghost))
+                if (Ghost.getDELAY() == 6 && (getPacman().isNextTo(ghost) || getPacman().collision(ghost))) {
+                    movePac = false;
                     return;
+                }
             }
         }
-        Point newPacLocation = new Point(
-                getPacman().getLocation().x + getPacman().getNewDirection().x,
-                getPacman().getLocation().y + getPacman().getNewDirection().y
-        );
-        Point curPacLocation = new Point(
-                getPacman().getLocation().x + getPacman().getCurrentDirection().x,
-                getPacman().getLocation().y + getPacman().getCurrentDirection().y
-        );
-        adjustToMap(newPacLocation);
-        adjustToMap(curPacLocation);
-        if (!getWalls().collision(newPacLocation)) {
-            getPacman().setCurrentDirection(getPacman().getNewDirection());
-            getPacman().setLocation(newPacLocation);
-        } else if (!getWalls().collision(curPacLocation))
-            getPacman().setLocation(curPacLocation);
+    }
+
+    public void movePacman() {
+        if (movePac) {
+            Point newPacLocation = new Point(
+                    getPacman().getLocation().x + getPacman().getNewDirection().x,
+                    getPacman().getLocation().y + getPacman().getNewDirection().y
+            );
+            Point curPacLocation = new Point(
+                    getPacman().getLocation().x + getPacman().getCurrentDirection().x,
+                    getPacman().getLocation().y + getPacman().getCurrentDirection().y
+            );
+            adjustToMap(newPacLocation);
+            adjustToMap(curPacLocation);
+            if (!getWalls().collision(newPacLocation)) {
+                getPacman().setCurrentDirection(getPacman().getNewDirection());
+                getPacman().setLocation(newPacLocation);
+            } else if (!getWalls().collision(curPacLocation))
+                getPacman().setLocation(curPacLocation);
+        }
     }
 
     public void moveGhosts() {

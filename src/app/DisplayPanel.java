@@ -11,7 +11,7 @@ import java.awt.*;
 public class DisplayPanel extends JPanel {
     public DisplayPanel() {
         setPreferredSize(new Dimension(700, 40));
-        setBackground(Color.green);
+        setBackground(Color.blue);
     }
 
     @Override
@@ -20,7 +20,6 @@ public class DisplayPanel extends JPanel {
         g.setColor(Color.yellow);
         g.fillRoundRect(130, 5, 165, 30, 10, 10);
         g.fillRoundRect(430, 5, 110, 30, 10, 10);
-        g.setColor(Color.magenta);
         g.fillRoundRect(320, 5, 80, 30, 10, 10);
         g.setColor(Color.black);
         g.drawString("Level " + Game.getLEVEL(), 340, 25);

@@ -11,15 +11,16 @@ public class AppPanel extends JPanel {
     private DisplayPanel displayPanel;
 
     public AppPanel() {
-        setLayout(new FlowLayout());
+        setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(710, 600));
         setBackground(Color.cyan.darker().darker());
         JButton start = new JButton("START   ");
-
         start.setBackground(Color.cyan);
+        start.setPreferredSize(new Dimension(120, 50));
         start.setIcon(new ImageIcon(Picture.PLAIN_PACMAN));
         start.addActionListener(_ -> {
             remove(start);
+            setLayout(new FlowLayout());
             this.displayPanel = new DisplayPanel();
             add(this.displayPanel);
             this.gamePanel = new GamePanel();
