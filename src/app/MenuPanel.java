@@ -12,7 +12,7 @@ public class MenuPanel extends JPanel {
 
     public MenuPanel() {
         setLayout(new FlowLayout());
-        setPreferredSize(new Dimension(700, 36));
+        setPreferredSize(new Dimension(880, 36));
         setBackground(Color.blue);
         pause = new JButton();
         pause.setPreferredSize(new Dimension(90, 26));

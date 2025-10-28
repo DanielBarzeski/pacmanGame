@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class DisplayPanel extends JPanel {
     public DisplayPanel() {
-        setPreferredSize(new Dimension(700, 40));
+        setPreferredSize(new Dimension(880, 40));
         setBackground(Color.blue);
     }
 

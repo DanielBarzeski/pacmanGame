@@ -12,7 +12,7 @@ public class AppPanel extends JPanel {
 
     public AppPanel() {
         setLayout(new GridBagLayout());
-        setPreferredSize(new Dimension(710, 600));
+        setPreferredSize(new Dimension(880, 740));
         setBackground(Color.cyan.darker().darker());
         JButton start = new JButton("START   ");
         start.setBackground(Color.cyan);
@@ -26,7 +26,7 @@ public class AppPanel extends JPanel {
             this.gamePanel = new GamePanel();
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
-            panel.setPreferredSize(new Dimension(700, 505));
+            panel.setPreferredSize(new Dimension(880, 645));
             panel.setBackground(Color.blue.darker().darker());
             panel.add(this.gamePanel, new GridBagConstraints());
             add(panel);
