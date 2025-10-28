@@ -14,6 +14,7 @@ public class DisplayPanel extends JPanel {
         setBackground(Color.blue);
     }
 
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
